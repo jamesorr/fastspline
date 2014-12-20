@@ -16,7 +16,7 @@ Then see how to use the routine with
 
   `print mcspline.__doc__`
 
-REFERENCE
+Reference
 ---------
 Weinert, H. L. (2009) A fast compact algorithm for cubic spline
-smoothing Computational Statistics and Data Analysis 53, 932-940.
+smoothing. Computational Statistics and Data Analysis 53, 932-940.
