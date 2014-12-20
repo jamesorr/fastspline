@@ -6,7 +6,7 @@ PROGRAM testspline
   INTEGER, PARAMETER :: nn = 12, nx = 2*12 + 2 - 1
 
   INTEGER :: n
-  REAL*8,  DIMENSION(nn) :: y 
+  REAL*8,  DIMENSION(nn) :: y, xony 
   REAL*8 :: lam, T
   INTEGER :: JJ, r
 
@@ -15,19 +15,18 @@ PROGRAM testspline
 
 ! Input
   y = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-  y = [-1, 2, 0, -2, 0, 2, 0, -2, 0, 2, 0, -2]
+! y = [-1, 2, 0, -2, 0, 2, 0, -2, 0, 2, 0, -2]
   n = nn
   r = 2
   T = 0.1
   JJ = 6
   lam = 5.8
 
-
   print *, 'Call cspline'
-  CALL cspline(x, score, y, n, r, T, JJ, lam)
+  CALL cspline(x, xony, score, y, n, r, T, JJ, lam)
 
 ! Output
-  WRITE(*,*)x
+  WRITE(*,*)xony
 
 END PROGRAM testspline
 

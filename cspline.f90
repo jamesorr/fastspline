@@ -1,7 +1,7 @@
 MODULE mcspline
 CONTAINS
 
-SUBROUTINE cspline(x, score, y, n, r, T, JJ, lam)
+SUBROUTINE cspline(x, xony, score, y, n, r, T, JJ, lam)
 
   IMPLICIT NONE 
 
@@ -16,21 +16,14 @@ SUBROUTINE cspline(x, score, y, n, r, T, JJ, lam)
   INTEGER, INTENT(in) :: r  
 ! Output arguments
   REAL*8, INTENT(out) :: score
-! REAL*8, INTENT(out), ALLOCATABLE :: x(:)
-! INTEGER, PARAMETER :: nx = r*n+r-1
-! REAL*8, INTENT(out) :: x(nx)
   REAL*8, INTENT(out) :: x(r*n+r-1)
+  REAL*8, INTENT(out) :: xONy(n)
 ! REAL*8, INTENT(out) :: x(25)
-
 
 ! Local variables
   REAL*8, DIMENSION(:), ALLOCATABLE :: c, e, f, w, z
   REAL*8 :: a0, a1, d
-
-! REAL (kind=8)    :: a2, x1, x2, alpha, beta
-  COMPLEX (kind=8) :: a2, x1, x2, alpha, beta
-  COMPLEX (kind=8) :: atmp
-
+  COMPLEX (kind=8) :: a2, x1, x2, alpha, beta, atmp
   REAL*8 :: fac1, fac2
   REAL*8 :: elim, flim, glim, hlim, qlim
   REAL*8 :: g1, g2, h
@@ -40,36 +33,23 @@ SUBROUTINE cspline(x, score, y, n, r, T, JJ, lam)
   REAL*8 :: tmp1, tmp2, tmp3, tmp4
   REAL*8 :: tr, tr1, tr2, tr3
   REAL*8 :: v
-  INTEGER :: ir
-  INTEGER :: nc   
+  INTEGER :: ir, nc
   INTEGER :: r2, rn, rsq
   INTEGER :: i, j, k
-  INTEGER :: NN
+  INTEGER :: NN, m
 
-! print *, 'Initialized variables'
-
-! n = SIZE(y)
   nc = CEILING(REAL(n)/REAL(2.))
   Tcu = T**3
   rn = r*n
 
-! IF (ALLOCATED(x)) DEALLOCATE(x)
-! ALLOCATE(x(rn+r-1))
+! Initialize output vector 'x' with zero for all 'm' members
+  m = r*n+r-1
   x = 0.0d0 
 
 ! print *, '2) Allocate c, w, z'
-
-! IF (ALLOCATED(c)) DEALLOCATE(c)
-  ALLOCATE(c(n))
-  c = 0.0d0 
-
-! IF (ALLOCATED(w)) DEALLOCATE(w)
-  ALLOCATE(w(n-2))
-  w = 0.0d0 
-
-! IF (ALLOCATED(z)) DEALLOCATE(z)
-  ALLOCATE(z(n))
-  z = 0.0d0 
+  ALLOCATE(c(n)) ; c = 0.0d0
+  ALLOCATE(w(n-2)) ; w = 0.0d0
+  ALLOCATE(z(n)) ; z = 0.0d0
 
   DO j=1,n-2 
      w(j) = y(j)-2*y(j+1)+y(j+2)
@@ -255,7 +235,7 @@ SUBROUTINE cspline(x, score, y, n, r, T, JJ, lam)
 
   END IF
 
-  print *, '13) Compute score'
+! print *, '13) Compute score'
   !Compute GCV score 
   z(1) = c(2)
   z(2) = c(3)-2*c(2)
@@ -273,7 +253,7 @@ SUBROUTINE cspline(x, score, y, n, r, T, JJ, lam)
   sq = sum (z * z)
   score = sq / tr**2
 
-  print *, 'Funny x(r:rn:r) operation'
+! print *, 'Funny x(r:rn:r) operation'
   !Compute estimates 
   !x(r:r:rn)=y-z
   x(r:rn:r) = y-z
@@ -315,5 +295,8 @@ SUBROUTINE cspline(x, score, y, n, r, T, JJ, lam)
         x(rn+j) = x(rn) + j*tmp2
      END DO
   END IF
+
+  xony = x(r:m:r)
+
 END SUBROUTINE cspline
 END MODULE mcspline

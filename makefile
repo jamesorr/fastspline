@@ -60,7 +60,7 @@ $(library):  $(OBJS)
 # Build the Fortran program executable that tests the fastspline library (testspline)
 #$(EXEC): $(TOBJS) $(library)
 #	$(FC) $(FCFLAGS) -o $(EXEC) $(TOBJS) 
-$(EXEC): $(OBJS) $(library) 
+$(EXEC): $(OBJS) $(library) testspline.o
 	$(FC) $(FCFLAGS) -o $@ $@.f90 $(LDFLAGS)
 
 # Build the shared object file for python
