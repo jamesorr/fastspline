@@ -10,7 +10,11 @@ Fotran 90 and Matlab routines.
 The associated makefile also produces a shared object file, usable in
 python with the following command:
 
-  `import fastspline`
+  `from fastspline import mcspline`
+
+Then see how to use the routine with
+
+  `print mcspline.__doc__`
 
 REFERENCE
 ---------
