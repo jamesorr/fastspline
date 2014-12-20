@@ -46,7 +46,7 @@ SUBROUTINE cspline(x, score, y, n, r, T, JJ, lam)
   INTEGER :: i, j, k
   INTEGER :: NN
 
- print *, 'Initialized variables'
+! print *, 'Initialized variables'
 
 ! n = SIZE(y)
   nc = CEILING(REAL(n)/REAL(2.))
@@ -57,7 +57,7 @@ SUBROUTINE cspline(x, score, y, n, r, T, JJ, lam)
 ! ALLOCATE(x(rn+r-1))
   x = 0.0d0 
 
-  print *, '2) Allocate c, w, z'
+! print *, '2) Allocate c, w, z'
 
 ! IF (ALLOCATED(c)) DEALLOCATE(c)
   ALLOCATE(c(n))
@@ -75,7 +75,7 @@ SUBROUTINE cspline(x, score, y, n, r, T, JJ, lam)
      w(j) = y(j)-2*y(j+1)+y(j+2)
   END DO
 
-  print *, '3) determine lamr, a0, a1, a2, x1, x2'
+! print *, '3) determine lamr, a0, a1, a2, x1, x2'
   lamr = lam*Tcu
   a0 = 6.d0 + lamr*2.d0/3.d0
   a1 = 4.d0 - lamr/6.d0
@@ -83,11 +83,11 @@ SUBROUTINE cspline(x, score, y, n, r, T, JJ, lam)
   a2 = SQRT(atmp)
   x1 =  (a1 + a2) / 2.d0
   x2 = -(a2 - a1) / 2.d0
-  print *,' a1**2 - 4.d0*(a0-2.d0) = ', atmp
-  print *, 'a0, a1, a2 =', a0, a1, a2
-  print *, 'x1, x2 =', x1, x2
+! print *,' a1**2 - 4.d0*(a0-2.d0) = ', atmp
+! print *, 'a0, a1, a2 =', a0, a1, a2
+! print *, 'x1, x2 =', x1, x2
 
-  print *, '4) determine alpha, beta'
+! print *, '4) determine alpha, beta'
   IF (lamr > 24.d0) THEN 
      alpha = 0.5d0*(x1 + SQRT(x1**2-4.d0))
      beta  = 0.5d0*(x2 + SQRT(x2**2-4.d0))
@@ -98,11 +98,11 @@ SUBROUTINE cspline(x, score, y, n, r, T, JJ, lam)
      alpha = 0.5d0*(x1 - SQRT(x1**2-4.d0))
      beta  = 0.5d0*(x2 + SQRT(x2**2-4.d0))
   END IF
-  print *, 'alpha, beta = ', alpha, beta
+! print *, 'alpha, beta = ', alpha, beta
 
 ! IF (JJ > LOG10(alpha*beta) - (nc-1)*2*LOG10(ABS(alpha))) THEN 
   IF (JJ > LOG10(DBLE(alpha*beta)) - (nc-1)*2*LOG10(ABS(alpha))) THEN 
-     print *, '5) JJ if block: GREATER THAN'
+     !print *, '5) JJ if block: GREATER THAN'
 
      !Use untruncated algorithm since NN > nc-2 
      !Factor coefficient matrix, solve triangular systems, find trace 
@@ -168,7 +168,7 @@ SUBROUTINE cspline(x, score, y, n, r, T, JJ, lam)
      tr = (tr1+tr2+tr3)/DBLE(n)
 
   ELSE 
-     print *, '5) JJ if block: LESS than'
+     !print *, '5) JJ if block: LESS than'
      !Use truncated algorithm since NN < nc-1
      !Factor coefficient matrix, solve triangular systems, find trace 
      flim = alpha*beta
@@ -178,7 +178,7 @@ SUBROUTINE cspline(x, score, y, n, r, T, JJ, lam)
      qlim = elim*hlim - flim*glim
      NN = CEILING((LOG10(flim) - JJ) / (2*LOG10(ABS(alpha))))
 
-     print *, '6) Allocate e, f'
+     !print *, '6) Allocate e, f'
      IF (ALLOCATED(e)) DEALLOCATE(e)
      ALLOCATE(e(NN))
      e = 0.0d0 
@@ -187,7 +187,7 @@ SUBROUTINE cspline(x, score, y, n, r, T, JJ, lam)
      ALLOCATE(f(NN))
      f = 0.0d0 
 
-     print *, '7) produce tr%, g%, etc.'
+     !print *, '7) produce tr%, g%, etc.'
      d = a0
      f(1) = 1.d0 / d
      c(2) = f(1)*w(1)
@@ -206,7 +206,7 @@ SUBROUTINE cspline(x, score, y, n, r, T, JJ, lam)
      tr1 = tr1+g1
      tr3 = 0.d0
 
-     print *, '8) Loop to produce tr1 etc'
+     !print *, '8) Loop to produce tr1 etc'
      DO j=3,NN 
         d = a0 - mu*e(j-1) - f(j-2)
         f(j) = 1.d0 / d
@@ -222,7 +222,7 @@ SUBROUTINE cspline(x, score, y, n, r, T, JJ, lam)
         tr1 = tr1 + g1
      END DO
 
-     print *, '9) Compute tr1, tr2, tr3, tr, mu'
+     !print *, '9) Compute tr1, tr2, tr3, tr, mu'
      tr1 = tr1+(nc-NN-1)*glim
      tr2 = tr2+(nc-NN)*hlim
      tr3 = tr3+(nc-NN)*qlim
@@ -232,10 +232,10 @@ SUBROUTINE cspline(x, score, y, n, r, T, JJ, lam)
      tr = (tr1 + tr2 + tr3)/DBLE(n)
      mu = a1 - elim
 
-     print *, '10) Compute c(j+1): first'
-     print *, 'c =', c
-     print *, 'NN, n =', NN, n
-     print *, 'flim, mu =', flim, mu
+     !print *, '10) Compute c(j+1): first'
+     !print *, 'c =', c
+     !print *, 'NN, n =', NN, n
+     !print *, 'flim, mu =', flim, mu
      DO j=NN+1,n-2 
         c(j+1) = flim*(w(j) + mu*c(j)-c(j-1))
      END DO
