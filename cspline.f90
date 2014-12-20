@@ -8,7 +8,7 @@ SUBROUTINE cspline(x, score, y, n, r, T, JJ, lam)
 ! Input arguments
   INTEGER, INTENT(in) :: n
   REAL*8,  INTENT(in), DIMENSION(N) :: y 
-!!!f2py optional , depend(sal) :: n=len(y)
+!f2py optional , depend(sal) :: n=len(y)
   !> lambda parameter
   REAL*8,  INTENT(in) :: lam
   REAL*8,  INTENT(in) :: T 
@@ -19,8 +19,8 @@ SUBROUTINE cspline(x, score, y, n, r, T, JJ, lam)
 ! REAL*8, INTENT(out), ALLOCATABLE :: x(:)
 ! INTEGER, PARAMETER :: nx = r*n+r-1
 ! REAL*8, INTENT(out) :: x(nx)
-! REAL*8, INTENT(out) :: x(r*n+r-1)
-  REAL*8, INTENT(out) :: x(25)
+  REAL*8, INTENT(out) :: x(r*n+r-1)
+! REAL*8, INTENT(out) :: x(25)
 
 
 ! Local variables
