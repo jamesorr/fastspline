@@ -8,7 +8,11 @@ improved computational speed. The arguments are identical in both the
 Fotran 90 and Matlab routines.
 
 The associated makefile also produces a shared object file, usable in
-python with the following command:
+python.  Produce that with the standard command:
+
+  `make`
+
+Then once in python, just import with the following command:
 
   `from fastspline import mcspline`
 
