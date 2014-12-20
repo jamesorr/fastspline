@@ -1,4 +1,4 @@
-MODULE fastspline
+MODULE mcspline
 CONTAINS
 
 SUBROUTINE cspline(x, score, y, n, r, T, JJ, lam)
@@ -316,4 +316,4 @@ SUBROUTINE cspline(x, score, y, n, r, T, JJ, lam)
      END DO
   END IF
 END SUBROUTINE cspline
-END MODULE fastspline
+END MODULE mcspline

@@ -1,5 +1,5 @@
 PROGRAM testspline
-  USE fastspline
+  USE mcspline
 
   IMPLICIT NONE
 
