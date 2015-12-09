@@ -219,16 +219,16 @@ SUBROUTINE cspline(x, xony, score, y, n, r, T, JJ, lam)
      DO j=NN+1,n-2 
         c(j+1) = flim*(w(j) + mu*c(j)-c(j-1))
      END DO
-     print *, c
-     print *, '10) Compute c(n-2)'
+     !print *, c
+     !print *, '10) Compute c(n-2)'
      c(n-2) = c(n-2) + elim*c(n-1)
 
-     print *, '11) Compute c(j)'
+     !print *, '11) Compute c(j)'
      DO j=n-3,NN+2,-1 
         c(j) = c(j) + elim*c(j+1) - flim*c(j+2)
      END DO
 
-     print *, '12) Compute c(j+1) : second'
+     !print *, '12) Compute c(j+1) : second'
      DO j=NN,1,-1 
         c(j+1) = c(j+1) + e(j)*c(j+2) - f(j)*c(j+3)
      END DO
